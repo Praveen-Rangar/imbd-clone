@@ -1,13 +1,7 @@
-import Content from "./Content";
-import Navbar from "./Navbar";
+import "./App.css";
 
 function App() {
-  return (
-    <div>
-      <Navbar />
-      <Content />
-    </div>
-  );
+  return <div className="App">bvvbffvjkf</div>;
 }
 
 export default App;
