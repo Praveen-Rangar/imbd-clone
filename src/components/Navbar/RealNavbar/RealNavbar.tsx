@@ -123,7 +123,7 @@ const StyledToolBar = styled(Toolbar)`
     }
     .logoURL {
       padding-top: 10px;
-      margin-left: -30px;
+      margin-left: -40px;
     }
     .EN {
       height: 36px;
