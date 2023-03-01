@@ -40,11 +40,11 @@ const StyledToolBar = styled(Toolbar)`
   .logoURL {
     height: 32px;
     width: 64px;
+    position: static;
   }
   .SearchBar {
     display: flex;
     height: 33px;
-    border-style: solid;
     background: #ffffff;
     height: 30px;
     width: 55%;
@@ -56,6 +56,7 @@ const StyledToolBar = styled(Toolbar)`
     width: 65px;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
   }
   .MenuChild {
     padding-right: 5px;
@@ -63,6 +64,10 @@ const StyledToolBar = styled(Toolbar)`
   .proMax {
     display: flex;
     width: 68px;
+  }
+
+  .IconButtonForMobileUse {
+    display: none;
   }
 
   @media (max-width: 1024px) {
@@ -101,6 +106,34 @@ const StyledToolBar = styled(Toolbar)`
   @media (max-width: 600px) {
     .SearchBar {
       display: none;
+    }
+    .IconButtonForMobileUse {
+      display: flex;
+      margin-right: -30px;
+    }
+    .IconButton {
+      padding-right: ;
+    }
+    .Hamburger {
+      padding-left: 6px;
+    }
+    .WatchList {
+      height: 20px;
+      margin-right: -50px;
+    }
+    .logoURL {
+      padding-top: 10px;
+      margin-left: -30px;
+    }
+    .EN {
+      height: 36px;
+      margin-right: -5px;
+    }
+    .WatchListChild {
+      display: none;
+    }
+    & > * {
+      height: 50px;
     }
   }
 `;
@@ -142,6 +175,7 @@ const RealNavbar = () => {
               <Search className="IconButton" />
             </IconButton>
           </Box>
+          <Search className="IconButtonForMobileUse" />
           <Typography className="proMax">
             IMDb{" "}
             <Box className="pro" component="span">
@@ -150,12 +184,12 @@ const RealNavbar = () => {
           </Typography>
           <Box className="WatchList">
             <BookmarkAdd />
-            <Typography>WatchList</Typography>
+            <Typography className="WatchListChild">WatchList</Typography>
           </Box>
           <Box className="EN">
             <Typography>EN</Typography>
             <ExpandMore />
-          </Box>
+          </Box>{" "}
         </StyledToolBar>
       </AppBar>
     </div>
