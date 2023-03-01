@@ -4,12 +4,14 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./Pages/Home/Home";
 import MovieList from "./components/MovieList/MovieList";
 import MovieDetails from "./Pages/MovieDetail/MovieDetails";
+import SerachBar from "./components/SearchBar/SearchBar";
+import RealNavbar from "./components/Navbar/RealNavbar/RealNavbar";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Navbar />
+        <RealNavbar />
         <Routes>
           <Route index element={<Home />}></Route>
           <Route path="movie/:id" element={<MovieDetails />}></Route>

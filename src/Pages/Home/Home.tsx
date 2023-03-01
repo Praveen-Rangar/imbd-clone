@@ -21,6 +21,14 @@ const Home = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(
+        "https://api.themoviedb.org/3/search/movie?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US&query=spiderman&page=1&include_adult=false"
+      )
+      .then((res) => console.log("res", res.data.results));
+  }, []);
+
   return (
     <div className="poster">
       <Carousel
