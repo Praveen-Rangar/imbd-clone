@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, FC } from "react";
+
 import axios from "axios";
-import { PopulerData } from "../../modules/PopulerData";
+import { PopulerData } from "../../../modules/PopulerData";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
 import "./Home.css";
-import MovieList from "../../components/MovieList/MovieList";
+import MovieList from "../MovieList/MovieList";
+import { PopulerMoviesAction } from "../../../Redux/Actions/HomeActions/PopulerMovies";
+import { connect, ConnectedProps } from "react-redux";
+import { State } from "../../../Redux/Store";
+import { PopulerMoviesSelector } from "../../../Redux/Selectors/PopulerMovies";
 
-const Home = () => {
-  const [populerMovies, setPopulerMovies] = useState<PopulerData[]>();
+type PopulerMoviesProps = ReduxProps;
 
+const Home: FC<PopulerMoviesProps> = ({ PopulerMoviesAC, PopulerMovies }) => {
   useEffect(() => {
     axios
       .get(
@@ -17,16 +22,8 @@ const Home = () => {
       )
       .then((res) => res.data)
       .then((response) => {
-        setPopulerMovies(response.results);
+        PopulerMoviesAC(response.results);
       });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        "https://api.themoviedb.org/3/search/movie?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US&query=spiderman&page=1&include_adult=false"
-      )
-      .then((res) => console.log("res", res.data.results));
   }, []);
 
   return (
@@ -38,7 +35,7 @@ const Home = () => {
         infiniteLoop={true}
         showStatus={false}
       >
-        {populerMovies?.map((movie) => (
+        {PopulerMovies?.map((movie) => (
           <Link
             style={{ textDecoration: "none", color: "white" }}
             to={`/movie/${movie.id}`}
@@ -72,4 +69,17 @@ ${movie && movie.backdrop_path}`}
   );
 };
 
-export default Home;
+const mapDispatchToProps = {
+  PopulerMoviesAC: PopulerMoviesAction,
+};
+
+const mapStateToProps = (state: State) => {
+  return {
+    PopulerMovies: PopulerMoviesSelector(state),
+  };
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type ReduxProps = ConnectedProps<typeof connector>;
+
+export default connector(Home);

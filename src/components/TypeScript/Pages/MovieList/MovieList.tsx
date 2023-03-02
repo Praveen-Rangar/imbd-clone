@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { PopulerData } from "../../modules/PopulerData";
-import Card from "../Card/Card";
+import { PopulerData } from "../../../modules/PopulerData";
+import Card from "../../Card/Card";
 import "./MovieList.css";
 
 const MovieList = () => {

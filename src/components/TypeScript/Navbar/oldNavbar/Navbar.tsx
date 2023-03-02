@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SerachBar from "../SearchBar/SearchBar";
+import SerachBar from "../../SearchBar/SearchBar";
 import "./Navbar.css";
 
 const Navbar = () => {
