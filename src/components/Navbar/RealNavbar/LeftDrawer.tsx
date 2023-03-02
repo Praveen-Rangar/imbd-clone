@@ -24,7 +24,7 @@ export default function LeftDrawer(props: any) {
     <Box
       sx={{
         width: 250,
-        height: 844,
+        height: 1,
         backgroundColor: "#212121",
         color: "#ffffff",
       }}
