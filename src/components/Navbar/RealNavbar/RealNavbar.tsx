@@ -7,17 +7,25 @@ import {
   Typography,
   InputBase,
   IconButton,
+  SwipeableDrawer,
+  Drawer,
 } from "@mui/material";
 import { logoURL } from "../../constants/Constant";
 import { Menu, BookmarkAdd, ExpandMore, Search } from "@mui/icons-material";
 import NavbarMenu from "./NavbarMenu";
 import { Link } from "react-router-dom";
+import MobileSearchBar from "./MobileSearchBar";
+
+const StyledAppBar = styled(AppBar)`
+  position: none !important;
+`;
 
 const StyledToolBar = styled(Toolbar)`
   background: #121212;
-  min-height: 56px !important;
+  min-height: 48px !important;
   justify-content: space-between;
-  position: relative !important;
+  position: sticky !important;
+
   & > * {
     padding: 0 16px;
   }
@@ -40,7 +48,6 @@ const StyledToolBar = styled(Toolbar)`
   .logoURL {
     height: 32px;
     width: 64px;
-    position: static;
   }
   .SearchBar {
     display: flex;
@@ -96,6 +103,7 @@ const StyledToolBar = styled(Toolbar)`
     .Hamburger {
       padding-right: 16px;
       padding-left: 16px;
+      cursor: pointer;
     }
   }
   @media (min-width: 1024px) {
@@ -110,6 +118,7 @@ const StyledToolBar = styled(Toolbar)`
     .IconButtonForMobileUse {
       display: flex;
       margin-right: -30px;
+      cursor: pointer;
     }
     .IconButton {
       padding-right: ;
@@ -122,7 +131,6 @@ const StyledToolBar = styled(Toolbar)`
       margin-right: -50px;
     }
     .logoURL {
-      padding-top: 10px;
       margin-left: -40px;
     }
     .EN {
@@ -131,9 +139,6 @@ const StyledToolBar = styled(Toolbar)`
     }
     .WatchListChild {
       display: none;
-    }
-    & > * {
-      height: 50px;
     }
   }
 `;
@@ -146,7 +151,15 @@ const InputSearchField = styled(InputBase)`
   width: 100%;
 `;
 
-const RealNavbar = () => {
+interface Props {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window?: () => Window;
+}
+
+const RealNavbar = (props: any) => {
   const [open, setopen] = useState(null);
 
   const handleClick = (event: any) => {
@@ -156,42 +169,50 @@ const RealNavbar = () => {
   const handleClose = () => {
     setopen(null);
   };
+
   return (
     <div>
-      <AppBar>
-        <StyledToolBar>
-          <Menu className="Hamburger" />
-          <Link to="/">
-            <Logo src={logoURL} alt="logo.png" className="logoURL" />{" "}
-          </Link>
-          <Box className="Menu" onClick={handleClick}>
-            <Menu className="MenuChild" />
-            <Typography>Menu</Typography>
-          </Box>
-          <NavbarMenu open={open} handleClose={handleClose} />
-          <Box className="SearchBar">
-            <InputSearchField className="" />
-            <IconButton size="large" aria-label="search">
-              <Search className="IconButton" />
-            </IconButton>
-          </Box>
-          <Search className="IconButtonForMobileUse" />
-          <Typography className="proMax">
-            IMDb{" "}
-            <Box className="pro" component="span">
-              Pro
+      {props.searchMenu ? (
+        <MobileSearchBar setSearchMenu={props.setSearchMenu} />
+      ) : (
+        <StyledAppBar>
+          <StyledToolBar>
+            <Menu onClick={() => props.setstate(true)} className="Hamburger" />
+            <Link to="/">
+              <Logo src={logoURL} alt="logo.png" className="logoURL" />{" "}
+            </Link>
+            <Box className="Menu" onClick={handleClick}>
+              <Menu className="MenuChild" />
+              <Typography>Menu</Typography>
+            </Box>
+            <NavbarMenu open={open} handleClose={handleClose} />
+            <Box className="SearchBar">
+              <InputSearchField className="" />
+              <IconButton size="large" aria-label="search">
+                <Search className="IconButton" />
+              </IconButton>
+            </Box>
+            <Search
+              onClick={() => props.setSearchMenu(true)}
+              className="IconButtonForMobileUse"
+            />
+            <Typography className="proMax">
+              IMDb{" "}
+              <Box className="pro" component="span">
+                Pro
+              </Box>{" "}
+            </Typography>
+            <Box className="WatchList">
+              <BookmarkAdd />
+              <Typography className="WatchListChild">WatchList</Typography>
+            </Box>
+            <Box className="EN">
+              <Typography>EN</Typography>
+              <ExpandMore />
             </Box>{" "}
-          </Typography>
-          <Box className="WatchList">
-            <BookmarkAdd />
-            <Typography className="WatchListChild">WatchList</Typography>
-          </Box>
-          <Box className="EN">
-            <Typography>EN</Typography>
-            <ExpandMore />
-          </Box>{" "}
-        </StyledToolBar>
-      </AppBar>
+          </StyledToolBar>
+        </StyledAppBar>
+      )}
     </div>
   );
 };

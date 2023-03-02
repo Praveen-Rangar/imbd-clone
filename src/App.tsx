@@ -6,12 +6,25 @@ import MovieList from "./components/MovieList/MovieList";
 import MovieDetails from "./Pages/MovieDetail/MovieDetails";
 import SerachBar from "./components/SearchBar/SearchBar";
 import RealNavbar from "./components/Navbar/RealNavbar/RealNavbar";
+import ResponsiveDrawer from "./components/Navbar/RealNavbar/LeftDrawer";
+import { useState } from "react";
+import LeftDrawer from "./components/Navbar/RealNavbar/LeftDrawer";
+import MobileSearchBar from "./components/Navbar/RealNavbar/MobileSearchBar";
 
 function App() {
+  const [state, setstate] = useState(false);
+  const [searchMenu, setSearchMenu] = useState(false);
+  console.log("", state);
+
   return (
     <div className="App">
       <Router>
-        <RealNavbar />
+        <RealNavbar
+          setstate={setstate}
+          setSearchMenu={setSearchMenu}
+          searchMenu={searchMenu}
+        />
+        <LeftDrawer setstate={setstate} state={state} />
         <Routes>
           <Route index element={<Home />}></Route>
           <Route path="movie/:id" element={<MovieDetails />}></Route>
