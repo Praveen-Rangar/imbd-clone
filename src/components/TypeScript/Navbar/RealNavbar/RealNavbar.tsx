@@ -48,6 +48,7 @@ const StyledToolBar = styled(Toolbar)`
   .logoURL {
     height: 32px;
     width: 64px;
+    padding-top: 5px;
   }
   .SearchBar {
     display: flex;
