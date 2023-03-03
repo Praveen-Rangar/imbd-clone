@@ -9,7 +9,23 @@ export type State = {
 };
 
 export const initialState: State = {
-  MovieDetails: {},
+  MovieDetails: {
+    backdrop_path: "",
+
+    genres: [{ id: 0, name: "" }],
+    production_companies: [{ logo_path: "", name: "" }],
+    tagline: "",
+    imdb_id: "",
+
+    poster_path: "",
+    original_title: "",
+    overview: "",
+    homepage: "",
+    release_date: "",
+    runtime: 0,
+    vote_average: 0,
+    vote_count: 0,
+  },
 };
 
 function MovieDetailsReducer(state = initialState, action: Action): State {
