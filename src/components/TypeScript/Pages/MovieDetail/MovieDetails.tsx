@@ -1,13 +1,20 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, FC } from "react";
+import { connect, ConnectedProps } from "react-redux";
 import { useParams } from "react-router-dom";
-import { MovieDetailsModule } from "../../../modules/MovieDetails";
+import { MovieDetailsAction } from "../../../Redux/Actions/MovieDetailsActions/MovieDetials";
+import { MoviesDetailsSelector } from "../../../Redux/Selectors/MoviesDetailsSel";
+import { State } from "../../../Redux/Store";
 import "./MovieDetails.css";
 
-const MovieDetails = () => {
-  const [currentMovieDetail, setCurrentMovieDetails] =
-    useState<MovieDetailsModule>();
-  console.log("currentMovieDetails", currentMovieDetail);
+type MovieDetailsProps = ReduxProps;
+
+const MovieDetails: FC<MovieDetailsProps> = ({
+  MovieDetailsAC,
+  movieDetails,
+}) => {
+  console.log("movieDetailss", movieDetails);
+  console.log("movieDetails", movieDetails);
 
   const { id } = useParams();
   console.log("id", id);
@@ -22,7 +29,7 @@ const MovieDetails = () => {
         `https://api.themoviedb.org/3/movie/${id}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`
       )
       .then((res) => res.data)
-      .then((response) => setCurrentMovieDetails(response));
+      .then((response) => MovieDetailsAC(response));
   };
 
   return (
@@ -31,7 +38,7 @@ const MovieDetails = () => {
         <img
           className="movie__backdrop"
           src={`https://image.tmdb.org/t/p/original${
-            currentMovieDetail ? currentMovieDetail.backdrop_path : ""
+            movieDetails ? movieDetails.backdrop_path : ""
           }`}
         />
       </div>
@@ -41,7 +48,7 @@ const MovieDetails = () => {
             <img
               className="movie__poster"
               src={`https://image.tmdb.org/t/p/original${
-                currentMovieDetail ? currentMovieDetail.poster_path : ""
+                movieDetails ? movieDetails.poster_path : ""
               }`}
             />
           </div>
@@ -49,31 +56,27 @@ const MovieDetails = () => {
         <div className="movie__detailRight">
           <div className="movie__detailRightTop">
             <div className="movie__name">
-              {currentMovieDetail ? currentMovieDetail.original_title : ""}
+              {movieDetails ? movieDetails.original_title : ""}
             </div>
             <div className="movie__tagline">
-              {currentMovieDetail ? currentMovieDetail.tagline : ""}
+              {movieDetails ? movieDetails.tagline : ""}
             </div>
             <div className="movie__rating">
-              {currentMovieDetail ? currentMovieDetail.vote_average : ""}{" "}
+              {movieDetails ? movieDetails.vote_average : ""}{" "}
               <i className="fas fa-star" />
               <span className="movie__voteCount">
-                {currentMovieDetail
-                  ? "(" + currentMovieDetail.vote_count + ") votes"
-                  : ""}
+                {movieDetails ? "(" + movieDetails.vote_count + ") votes" : ""}
               </span>
             </div>
             <div className="movie__runtime">
-              {currentMovieDetail ? currentMovieDetail.runtime + " mins" : ""}
+              {movieDetails ? movieDetails.runtime + " mins" : ""}
             </div>
             <div className="movie__releaseDate">
-              {currentMovieDetail
-                ? "Release date: " + currentMovieDetail.release_date
-                : ""}
+              {movieDetails ? "Release date: " + movieDetails.release_date : ""}
             </div>
             <div className="movie__genres">
-              {currentMovieDetail && currentMovieDetail.genres
-                ? currentMovieDetail.genres.map((genre) => (
+              {movieDetails && movieDetails.genres
+                ? movieDetails.genres.map((genre) => (
                     <>
                       <span className="movie__genre" key={genre.id}>
                         {genre.name}
@@ -85,15 +88,15 @@ const MovieDetails = () => {
           </div>
           <div className="movie__detailRightBottom">
             <div className="synopsisText">Synopsis</div>
-            <div>{currentMovieDetail ? currentMovieDetail.overview : ""}</div>
+            <div>{movieDetails ? movieDetails.overview : ""}</div>
           </div>
         </div>
       </div>
       <div className="movie__links">
         <div className="movie__heading">Useful Links</div>
-        {currentMovieDetail && currentMovieDetail.homepage && (
+        {movieDetails && movieDetails.homepage && (
           <a
-            href={currentMovieDetail.homepage}
+            href={movieDetails.homepage}
             target="_blank"
             style={{ textDecoration: "none" }}
           >
@@ -104,9 +107,9 @@ const MovieDetails = () => {
             </p>
           </a>
         )}
-        {currentMovieDetail && currentMovieDetail.imdb_id && (
+        {movieDetails && movieDetails.imdb_id && (
           <a
-            href={"https://www.imdb.com/title/" + currentMovieDetail.imdb_id}
+            href={"https://www.imdb.com/title/" + movieDetails.imdb_id}
             target="_blank"
             style={{ textDecoration: "none" }}
           >
@@ -120,9 +123,9 @@ const MovieDetails = () => {
       </div>
       <div className="movie__heading">Production companies</div>
       <div className="movie__production">
-        {currentMovieDetail &&
-          currentMovieDetail.production_companies &&
-          currentMovieDetail.production_companies.map((company) => (
+        {movieDetails &&
+          movieDetails.production_companies &&
+          movieDetails.production_companies.map((company) => (
             <>
               {company.logo_path && (
                 <span className="productionCompanyImage">
@@ -142,4 +145,18 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+const mapDispatchToProps = {
+  MovieDetailsAC: MovieDetailsAction,
+};
+
+const mapStateToProps = (state: State) => {
+  return {
+    movieDetails: MoviesDetailsSelector(state),
+  };
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type ReduxProps = ConnectedProps<typeof connector>;
+
+export default connector(MovieDetails);

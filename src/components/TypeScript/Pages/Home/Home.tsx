@@ -10,7 +10,7 @@ import MovieList from "../MovieList/MovieList";
 import { PopulerMoviesAction } from "../../../Redux/Actions/HomeActions/PopulerMovies";
 import { connect, ConnectedProps } from "react-redux";
 import { State } from "../../../Redux/Store";
-import { PopulerMoviesSelector } from "../../../Redux/Selectors/PopulerMovies";
+import { PopulerMoviesSelector } from "../../../Redux/Selectors/PopulerMoviesSel";
 
 type PopulerMoviesProps = ReduxProps;
 

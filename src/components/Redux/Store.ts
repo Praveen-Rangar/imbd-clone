@@ -1,10 +1,12 @@
 import { combineReducers, createStore } from "redux";
+import MovieDetailsReducer from "./Reducers/MovieDetailsReducer";
 import MoviesListReducer from "./Reducers/MovieListReducer";
 import PopulerMoviesReducer from "./Reducers/PopulerMoviesReducer";
 
 const reducer = combineReducers({
   PopulerM: PopulerMoviesReducer,
   MoviesList: MoviesListReducer,
+  MovieDetails: MovieDetailsReducer,
 });
 
 export type State = ReturnType<typeof reducer>;

@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { useParams } from "react-router-dom";
 import { PopulerData } from "../../../modules/PopulerData";
 import { MovieListAction } from "../../../Redux/Actions/MovieListActions/MovieList";
-import { MoviesListSelector } from "../../../Redux/Selectors/MoviesList";
+import { MoviesListSelector } from "../../../Redux/Selectors/MoviesListSel";
 import { State } from "../../../Redux/Store";
 import Card from "../../Card/Card";
 import "./MovieList.css";
